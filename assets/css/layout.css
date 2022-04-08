@@ -1,0 +1,40 @@
+h1.title{
+	font-family: 'Montserrat', sans-serif;
+	font-weight: bold;
+	font-size: 50px;
+}
+
+.is-error, .custom-form .errorlist{
+	color: red;
+}
+
+.custom-form ul, .helptext{
+	display: block;
+	color: grey;
+}
+
+.wrapper {
+    text-align: center;
+}
+
+.button {
+    position: absolute;
+    top: 50%;
+}
+
+
+table {
+	font-family: arial, sans-serif;
+	border-collapse: collapse;
+	width: 100%;
+  }
+  
+  td, th {
+	border: 1px solid #dddddd;
+	text-align: left;
+	padding: 8px;
+  }
+  
+  tr:nth-child(even) {
+	background-color: #dddddd;
+  }

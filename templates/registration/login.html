@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block content %}
+	<style>
+		body{
+			background-color: #DCE9FD;
+			height: 100vh;
+		}
+
+		.input-login, .input-login:focus {
+			background-color: #052B12;
+			color: white;
+			border-radius: 10px;
+			padding: .5rem;
+			padding-left: 1rem;
+			padding-right: 1rem;
+			font-family: 'Montserrat', sans-serif;
+		}
+
+		.text-link{
+			color: #052B12;
+			font-size: 1.2rem;
+			font-family: 'Montserrat', sans-serif;
+			font-weight: medium;
+			text-decoration: none;
+		}
+
+		.btn-login{
+			color: white;
+			background-color: #267693;
+			border-radius: 10px;
+			font-family: 'Montserrat', sans-serif;
+		}
+
+		.form-login{
+			max-width: 50%;
+		}
+
+		.logo{
+			max-width: 20%;
+		}
+
+		.vectors{
+			position: absolute;
+			bottom: 0;
+			width: 100%;
+		}
+	</style>
+	<div class="container p-5">
+		<h1 class="title text-center mb-3">Sign In</h1>
+		<div class="w-100 text-center mb-4">
+			<img src="{% static 'images/logo_only.png' %}" alt="STRAIGHT logo" class="logo">
+		</div>
+		<div class="container text-center text-danger">
+			{% if form.errors and not form.non_field_errors %}
+			<p class="errornote">
+			{% if form.errors.items|length == 1 %}
+			Please correct the error below.
+			{% else %}
+			Please correct the errors below.
+			{% endif %}
+			</p>
+			{% endif %}
+
+			{% if form.non_field_errors %}
+			{% for error in form.non_field_errors %}
+			<p class="errornote">
+				{{ error }}
+			</p>
+			{% endfor %}
+			{% endif %}
+		</div>
+		<form method="post" class="form-login mx-auto">
+			{% csrf_token %}
+			<div class="form-group mb-4">
+				{% render_field form.username placeholder="Username" class+="form-control input-login" %}
+				{{ form.username.errors }}
+			</div>
+			<div class="form-group mb-3">
+				{% render_field form.password placeholder="Password" class+="form-control input-login" %}
+				{{ form.password.errors }}
+			</div>
+			<div class="mb-3">
+				<div class="text-end">
+					<a class="text-link" href="{% url 'password_reset' %}">Lupa Password?</a>
+				</div>
+			</div>
+			<div class="wrapper">
+				<button type="submit" name="button" class="btn btn-login w-100">Login</button>
+			</div>
+		</form>
+	</div>
+	<img src="{% static 'images/wave.png' %}" alt="vectors" class="vectors">
+
+<!-- <pre style="text-align: center;">
+	<form action="user.php" method="post">
+		<pre>No Induk = <input type="text" name="no_induk" placeholder="No Induk"> 
+
+Name     = <input type="text" name="name" placeholder="Name"> 
+
+
+<input type="password" id="password" class="fadeIn third" name="password" placeholder="Password" value="">
+<input type="text" id="login" class="fadeIn second" name="email" placeholder="email" </span>
+
+Role    = <input type="text" name="role" placeholder="Role">
+
+Email    = <input type="text" name="email" placeholder="Email"> </pre>
+		<input type="submit" value="ADD">
+	</form>
+</pre> -->
+{% endblock %}
+
