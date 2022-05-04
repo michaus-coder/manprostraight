@@ -1,0 +1,274 @@
+<!-- FULL TENTANG SIDEBAR -->
+<nav>
+  <div id="mySidenav" class="sidenav">
+    <b
+      ><p style="float: right; padding-right: 24px; font-size: 25pt">
+        Dashboard
+      </p></b
+    >
+    <img
+      src="{% static 'images/logostraightbulet.png' %}"
+      style="padding-top: 16px; padding-left: 30px; display: inline-block"
+    />
+    <h1 style="padding-left: 30px; padding-top: 30px">MAIN</h1>
+    <a href="/home">
+      <img
+        src="{% static 'images/home.png' %}"
+        style="padding-right: 16px"
+      />Home</a
+    >
+
+    {% if user.is_authenticated %} {% comment %}
+    <a href="{% url 'blogs:index' %}"
+      ><img
+        src="{% static 'images/task.png' %}"
+        style="padding-right: 16px"
+      />Project</a
+    >
+    {% endcomment %} {% comment %}
+    <a href="{% url 'notif' %}"
+      ><img
+        src="{% static 'images/notif.png' %}"
+        style="padding-right: 16px"
+      />Notifications</a
+    >
+    {% endcomment %} {% comment %}
+    <a href="{% url 'teammanagement' %}"
+      ><img
+        src="{% static 'images/team.png' %}"
+        style="padding-right: 16px"
+      />Team Management</a
+    >
+    {% endcomment %}
+    <!-- <a href="/kontak">Contact</a> -->
+
+    <br />
+    <h1 style="padding-left: 30px">SETTINGS</h1>
+    {% comment %}
+    <a href="{% url 'profile' %}"
+      ><img
+        src="{% static 'images/profile.png' %}"
+        style="padding-right: 16px"
+      />Profile</a
+    >
+    {% endcomment %}
+    <a href="{% url 'logout' %}"
+      ><img
+        src="{% static 'images/logout.png' %}"
+        style="padding-right: 16px"
+      />Logout</a
+    >
+
+    {% if request.user.username == "admin" %}
+    <br />
+    <h1 style="padding-left: 30px">MASTER</h1>
+    {% comment %}
+    <a href="{% url 'usermanagement' %}"
+      ><img
+        src="{% static 'images/user.png' %}"
+        style="padding-right: 16px"
+      />User Management</a
+    >
+    {% endcomment %} {% endif %} {% else %}
+    <a href="{% url 'login' %}">Sign in</a>
+    <a href="{% url 'signup' %}">Signup</a>
+    {% endif %}
+  </div>
+</nav>
+<!--  -->
+
+<div id="main">
+  <div class="topnav">
+    <span
+      style="font-size: 30px; cursor: pointer; float: left; padding-top: 16px"
+      onclick="openNav()"
+      class="sidenavopened"
+      >&#9776;</span
+    >
+    <h1 style="float: left; padding-left: 16px; color: rgb(0, 109, 109)">
+      {% block title%}{% endblock %}
+    </h1>
+
+    {% if user.is_authenticated %}
+    <div class="dropdown">
+      <button onclick="showdropdown()" class="dropbtn">
+        <img
+          src="{% static 'images/panahbawah.png' %}"
+          style="padding-left: 8px; float: right; padding-top: 28px"
+        />
+        <h1 style="float: right; color: rgb(0, 109, 109)">
+          {{request.user.username}}
+        </h1>
+        <img
+          src="{% static 'images/fotoprofil.png' %}"
+          style="padding-right: 8px; float: right; padding-top: 20px"
+        />
+      </button>
+      <div id="myDropdown" class="dropdown-content">
+        <a href="{% url 'logout' %}">Logout</a>
+      </div>
+    </div>
+    {% comment %}
+    <a href="{% url 'notif' %}"
+      ><img
+        src="{% static 'images/Group_187.png' %}"
+        alt="notificationlogo"
+        style="float: right; padding-right: 16px; padding-top: 20px"
+    /></a>
+    {% endcomment %}
+    <a href=""
+      ><img
+        src="{% static 'images/Group_188.png' %}"
+        alt="searchlogo"
+        style="float: right; padding-right: 16px; padding-top: 20px"
+    /></a>
+    {% endif %} {% if messages %}
+    <ul class="messages">
+      {% for message in messages %}
+      <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>
+        {{ message }}
+      </li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+  </div>
+
+  <script>
+    function openNav() {
+      document.getElementById("mySidenav").style.width = "320px";
+      document.getElementById("main").style.marginLeft = "320px";
+      document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
+    }
+
+    function closeNav() {
+      document.getElementById("mySidenav").style.width = "0";
+      document.getElementById("main").style.marginLeft = "0";
+      document.body.style.backgroundColor = "rgb(232, 232, 232)";
+    }
+
+    function startTime() {
+      const today = new Date();
+      let h = today.getHours();
+      let m = today.getMinutes();
+      let s = today.getSeconds();
+      m = checkTime(m);
+      s = checkTime(s);
+      ampm = "";
+      if (h == 0 || h <= 11) {
+        ampm = "AM";
+      } else {
+        ampm = "PM";
+      }
+      document.getElementById("time").innerHTML =
+        h + ":" + m + ":" + s + " " + ampm;
+      harii = today.getDay();
+      hari = "";
+      if (harii == 6) {
+        hari = "Saturday";
+      } else if (harii == 5) {
+        hari = "Friday";
+      } else if (harii == 4) {
+        hari = "Thursday";
+      } else if (harii == 3) {
+        hari = "Wednesday";
+      } else if (harii == 2) {
+        hari = "Tuesday";
+      } else if (harii == 1) {
+        hari = "Monday";
+      } else {
+        hari = "Sunday";
+      }
+      document.getElementById("day").innerHTML = hari;
+
+      tahun = today.getFullYear();
+      const months = [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December",
+      ];
+      bulan = months[today.getMonth()];
+      tanggal = today.getDate();
+      document.getElementById("date").innerHTML =
+        tanggal + " " + bulan + " " + tahun;
+      setTimeout(startTime, 1000);
+    }
+
+    function checkTime(i) {
+      if (i < 10) {
+        i = "0" + i;
+      } // add zero in front of numbers < 10
+      return i;
+    }
+
+    /* dropdown */
+    function showdropdown() {
+      document.getElementById("myDropdown").classList.toggle("show");
+    }
+
+    // Close the dropdown if the user clicks outside of it
+    window.onclick = function (event) {
+      if (!event.target.matches(".dropbtn")) {
+        var dropdowns = document.getElementsByClassName("dropdown-content");
+        var i;
+        for (i = 0; i < dropdowns.length; i++) {
+          var openDropdown = dropdowns[i];
+          if (openDropdown.classList.contains("show")) {
+            openDropdown.classList.remove("show");
+          }
+        }
+      }
+      if (!event.target.matches(".sidenavopened")) {
+        closeNav();
+      }
+    };
+
+    function satu() {
+      if (document.getElementById("projecttasks").style.display === "none") {
+        document.getElementById("projecttasks").style.display = "block";
+        document.getElementById("rawmaterial").style.display = "none";
+        document.getElementById("ganttchart").style.display = "none";
+        document.getElementById("one").style.textDecoration = "underline";
+        document.getElementById("two").style.textDecoration = "none";
+        document.getElementById("three").style.textDecoration = "none";
+        document.getElementById("newtaskbtn").style.display = "block";
+        document.getElementById("newmaterialbtn").style.display = "none";
+        document.getElementById("excelbtn").style.display = "none";
+      }
+    }
+    function dua() {
+      if (document.getElementById("rawmaterial").style.display === "none") {
+        document.getElementById("rawmaterial").style.display = "block";
+        document.getElementById("projecttasks").style.display = "none";
+        document.getElementById("ganttchart").style.display = "none";
+        document.getElementById("one").style.textDecoration = "none";
+        document.getElementById("two").style.textDecoration = "underline";
+        document.getElementById("three").style.textDecoration = "none";
+        document.getElementById("newtaskbtn").style.display = "none";
+        document.getElementById("newmaterialbtn").style.display = "block";
+        document.getElementById("excelbtn").style.display = "none";
+      }
+    }
+    function tiga() {
+      if (document.getElementById("ganttchart").style.display === "none") {
+        document.getElementById("ganttchart").style.display = "block";
+        document.getElementById("rawmaterial").style.display = "none";
+        document.getElementById("projecttasks").style.display = "none";
+        document.getElementById("one").style.textDecoration = "none";
+        document.getElementById("two").style.textDecoration = "none";
+        document.getElementById("three").style.textDecoration = "underline";
+        document.getElementById("newtaskbtn").style.display = "none";
+        document.getElementById("newmaterialbtn").style.display = "none";
+        document.getElementById("excelbtn").style.display = "block";
+      }
+    }
+  </script>
+</div>

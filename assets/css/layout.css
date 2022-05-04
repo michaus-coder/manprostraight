@@ -35,6 +35,422 @@ table {
 	padding: 8px;
   }
   
-  tr:nth-child(even) {
+  /* tr:nth-child(even) {
 	background-color: #dddddd;
-  }
+  } */
+
+body {
+	font-family: sans-serif;
+	background: rgb(232, 232, 232);
+	width: 100%;
+	margin: auto;
+	transition: background-color .5s;
+}
+
+.is-error,
+.custom-form .errorlist {
+	color: red;
+}
+
+.custom-form ul,
+.helptext {
+	display: block;
+	color: grey;
+}
+
+.button {
+	position: absolute;
+	top: 50%;
+}
+
+
+.sidenav {
+	height: 100%;
+	width: 0;
+	position: fixed;
+	z-index: 1;
+	top: 0;
+	left: 0;
+	background-color: white;
+	overflow-x: hidden;
+	transition: 0.5s;
+	padding-top: 10px;
+}
+
+.sidenav a {
+	padding: 8px 8px 8px 32px;
+	text-decoration: none;
+	font-size: 25px;
+	color: #818181;
+	display: block;
+	transition: 0.3s;
+}
+
+.sidenav a:hover {
+	color: black;
+}
+
+.sidenav .closebtn {
+	position: absolute;
+	top: 0;
+	right: 25px;
+	font-size: 36px;
+	margin-left: 50px;
+}
+
+#main {
+	transition: margin-left .5s;
+}
+
+@media screen and (max-height: 450px) {
+	.sidenav {
+		padding-top: 15px;
+	}
+
+	.sidenav a {
+		font-size: 18px;
+	}
+}
+
+
+.topnav {
+	padding: 16px;
+	overflow: hidden;
+	background-color: white;
+}
+
+/* .allcontent {
+	padding: 20px;
+  } */
+
+.logodashboard {
+	display: inline;
+}
+
+#homesquare {
+	border-radius: 25px;
+	background: white;
+	margin-top: 20px;
+	height: 400px;
+}
+
+.buttons {
+	background-color: rgb(0, 109, 109);
+	border: none;
+	color: white;
+	padding-left: 20px;
+	padding-right: 20px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	text-align: center;
+	text-decoration: none;
+	font-size: 16px;
+	cursor: pointer;
+	border-radius: 12px;
+	margin: 0 auto;
+	display: block;
+}
+
+#projectsquare {
+	float: left;
+	padding: 20px;
+	background: white;
+	margin-top: 40px;
+	margin-left: 40px;
+	width: 400px;
+	height: 400px;
+	box-shadow: 3px 5px gray;
+}
+
+.buttonsproject {
+	background-color: lightgray;
+	border: none;
+	color: black;
+	padding-left: 80px;
+	padding-right: 80px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	text-align: center;
+	text-decoration: none;
+	font-size: 16px;
+	cursor: pointer;
+	border-radius: 6px;
+	margin: 0 auto;
+	display: block;
+}
+
+#projectsquare2 {
+	padding: 10px;
+	margin-bottom: 10px;
+	background: rgb(221, 221, 221);
+	box-shadow: 3px 5px rgb(184, 184, 184);
+}
+
+table.tableproject {
+	width: 100%;
+	table-layout: fixed;
+}
+
+table.tableproject td,
+table.tableproject th {
+	text-align: center;
+	padding-bottom: 8px;
+	padding-left: 4px;
+	padding-right: 4px;
+}
+
+#projectsquare3 {
+	border-radius: 25px;
+	padding: 5px;
+	color: white;
+}
+
+#addproject {
+	position: fixed;
+	bottom: 10px;
+	right: 10px;
+}
+
+/*dropdown*/
+.dropbtn {
+	background-color: white;
+	font-size: 16px;
+	border: none;
+	cursor: pointer;
+}
+
+.dropbtn:hover {
+	background-color: rgb(240, 240, 240);
+}
+
+.dropdown {
+	float: right;
+	position: relative;
+	display: inline;
+}
+
+.dropdown-content {
+	display: none;
+	position: fixed;
+	background-color: #e7e7e7;
+	overflow: auto;
+	box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+	z-index: 1;
+}
+
+.dropdown-content a {
+	color: black;
+	padding: 12px 16px;
+	text-decoration: none;
+	display: block;
+}
+
+.dropdown a:hover {
+	background-color: #ddd;
+}
+
+.show {
+	display: block;
+}
+
+#notif_square {
+	border-radius: 25px;
+	background: white;
+	margin: auto;
+	margin-top: 40px;
+	width: 95%;
+	height: 200px;
+}
+
+table.tabletm {
+	width: 100%;
+	table-layout: fixed;
+}
+
+table.tabletm td,
+table.tabletm th {
+	border: none;
+	font-size: 25pt;
+	text-align: left;
+	padding-bottom: 8px;
+	padding-left: 4px;
+	padding-right: 4px;
+}
+
+#tm_square {
+	border-radius: 25px;
+	background: white;
+	margin: auto;
+	margin-top: 40px;
+	width: 95%;
+	/* height: 200px; */
+	box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+	z-index: 1;
+	padding: 20px;
+}
+
+input[type=text].inputtm {
+	margin-bottom: 10px;
+	width: 100%;
+	padding: 12px 10px;
+	display: inline-block;
+	background-color: rgb(230, 230, 230);
+	box-sizing: border-box;
+	border-radius: 10px;
+}
+
+#tm_square2 {
+	border-radius: 25px;
+	background: white;
+	margin: auto;
+	margin-top: 40px;
+	width: 95%;
+	height: 100%;
+	padding: 20px;
+}
+
+#tm_square3 {
+	border-radius: 25px;
+	background: rgb(246, 246, 246);
+	width: 45%;
+	height: 100%;
+	padding: 20px;
+	box-shadow: 3px 5px gray;
+}
+
+.buttonsprofile {
+	background-color: lightgray;
+	border: none;
+	color: black;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	text-align: center;
+	text-decoration: none;
+	font-size: 24px;
+	cursor: pointer;
+	border-radius: 6px;
+	margin: 0 auto;
+	display: block;
+}
+
+table.tableprofile {
+	width: 90%;
+	table-layout: fixed;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+table.tableprofile td,
+table.tableprofile th {
+	border: none;
+	font-size: 25pt;
+	text-align: left;
+	padding-bottom: 8px;
+	padding-left: 4px;
+	padding-right: 4px;
+}
+
+input[type=text].inputprofile {
+	margin-bottom: 10px;
+	width: 100%;
+	padding: 12px 10px;
+	display: inline-block;
+	background-color: rgb(230, 230, 230);
+	box-sizing: border-box;
+	border-radius: 10px;
+}
+
+table.tableum {
+	width: 90%;
+	table-layout: fixed;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+table.tableum td,
+table.tableum th {
+	border: none;
+	font-size: 25pt;
+	text-align: center;
+	padding-bottom: 8px;
+	padding-left: 4px;
+	padding-right: 4px;
+}
+
+input[type=text].inputum {
+	margin-bottom: 10px;
+	width: 100%;
+	padding: 12px 10px;
+	display: inline-block;
+	background-color: rgb(179, 179, 179);
+	box-sizing: border-box;
+	border-radius: 10px;
+}
+
+#umsquare {
+	border-radius: 25px;
+	color: white;
+	text-align: center;
+	font-size: 20pt;
+}
+
+#projectsquaremanage1 {
+	padding: 20px;
+	background: white;
+	margin: 40px;
+	width: auto;
+	height: auto;
+	box-shadow: 3px 5px gray;
+}
+
+#projectsquaremanage2 {
+	padding: 10px;
+	background: rgb(221, 221, 221);
+	box-shadow: 3px 5px rgb(184, 184, 184);
+}
+
+table.tableprojectsatuan {
+	font-family: arial, sans-serif;
+	border-collapse: collapse;
+	width: 100%;
+}
+
+table.tableprojectsatuan td,
+table.tableprojectsatuan th {
+	border: 1px solid #dddddd;
+	text-align: left;
+	padding: 8px;
+}
+
+.navbarproject {
+	padding-top: 20px;
+}
+
+.navbarproject a {
+	padding-right: 10px;
+	text-decoration: none;
+	font-size: 25px;
+	color: #818181;
+}
+
+.navbarproject a:active {
+	color: black;
+}
+
+.navbarproject a:hover {
+	color: black;
+}
+
+.button3table {
+	background-color: rgb(0, 109, 109);
+	/* Green */
+	border: none;
+	color: white;
+	padding: 10px 40px 10px 40px;
+	text-align: center;
+	text-decoration: none;
+	font-size: 16px;
+	cursor: pointer;
+	border-radius: 8px;
+	float: right;
+}

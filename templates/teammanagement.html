@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+	Team Management
+{% endblock %}
+
+
+
+{% block content %}	
+	{% if request.user.username == "admin" %}
+		<div id="tm_square">
+			<table class="tabletm">
+				<colgroup>
+					<col span="1" style="width: 60%;">
+					<col span="1" style="width: 40%;">
+				 </colgroup>
+				 <tbody>
+					<tr>
+						<th>Email Address</th>
+						<th>Role</th>
+					</tr>
+					<tr>
+						<th><input type="text" class="inputtm"></th>
+						<th><input type="text" class="inputtm"></th>
+					</tr>
+				</tbody>
+			</table>
+			<br>
+			<a href="" style="text-decoration: none;"><button class="buttons" >Add user to the team</button></a>
+		</div>
+	{% endif %}
+	
+	<div id="tm_square2">
+		<div id="tm_square3">
+			{% if request.user.username == "admin" %}
+				<a href=""><img src="{% static 'images/trash_tm.png' %}" style="float: right;"></a>
+			{% endif %}
+			<table>
+				<tr>
+					<td rowspan="0"><img src="{% static 'images/employee.png' %}" style="padding-right: 24px;"></td>
+					<td><a style="color: blue; font-size: 28pt; font-weight: bold;">Hans Anders</a></td>
+				</tr>
+				<tr>
+					<td><a style="color: rgb(255, 172, 28); font-size: 18pt;">hansanders@gmail.com</a></td>
+				</tr>
+				<tr>
+					<td><a style="color: rgb(255, 172, 28); font-size: 18pt;">Status: Pending</a></td>
+				</tr>
+			</table>
+		</div>
+	</div>
+{% endblock %}

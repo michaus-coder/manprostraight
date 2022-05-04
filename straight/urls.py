@@ -19,6 +19,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.contrib.auth import views
+from projects.views import home
 from users.forms import UserLoginForm
 
 app_name="straight"
@@ -28,6 +29,7 @@ handler404 = 'users.views.page_not_found'
 urlpatterns = [
     path('', include('users.urls', namespace='')),
     path('dashboard/', admin.site.urls),
+    path('home' , home)
 ]
 
 urlpatterns += staticfiles_urlpatterns()

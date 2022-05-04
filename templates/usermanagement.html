@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+	User Management
+{% endblock %}
+
+
+
+{% block content %}
+    <table class="tableum">
+        <colgroup>
+            <col span="1" style="width: 10%;">
+            <col span="1" style="width: 30%;">
+            <col span="1" style="width: 50%;">
+            <col span="1" style="width: 10%;">
+        </colgroup>
+        <tbody>
+            <tr>
+                <th class="text-start"></th>
+                <th class="text-start">Name</th>
+                <th>Role</th>
+                <th class="text-start"></th>
+            </tr>
+        </tbody>
+    </table>
+    <hr>
+    <table class="tableum">
+        <colgroup>
+            <col span="1" style="width: 10%;">
+            <col span="1" style="width: 30%;">
+            <col span="1" style="width: 50%;">
+            <col span="1" style="width: 10%;">
+        </colgroup>
+        <tbody>
+            <tr>
+                <td><img src="{% static 'images/profileum.png' %}" style="padding-right: 24px;"></td>
+                <td class="d-flex flex-column text-start">
+                    <a style="color: black; font-size: 20pt; font-weight: bold;">Giro Sakalam</a>
+                    <a style="color: rgb(87, 201, 250); font-size: 12pt;">On 24.05.2019</a>
+                </td>
+                <th><div id="umsquare" style="background-color: red;">SUPERADMIN</div></th>
+                <th><a href=""><img src="{% static 'images/vector.png' %}"></a></th>
+            </tr>
+        </tbody>
+    </table>
+{% endblock %}

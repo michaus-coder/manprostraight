@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+	Notifications
+{% endblock %}
+
+
+
+{% block content %}
+	<div id="notif_square">
+		<a href=""><img src="{% static 'images/bell_notif.png' %}" style="float: left; margin: 20px;"></a>
+		<a href=""><img src="{% static 'images/cross_notif.png' %}" style="float: right; margin: 20px;"></a>
+	</div>
+{% endblock %}

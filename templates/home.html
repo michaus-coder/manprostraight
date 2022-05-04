@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %}
+	Home
+	{% if messages %}
+	<ul class="messages">
+		{% for message in messages %}
+			<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+		{% endfor %}
+	</ul>
+	{% endif %}
+{% endblock %}
+
+
+
+{% block content %}
+	{% if user.is_authenticated %}
+		<div class="d-flex justify-content-center align-items-center" id="homesquare">
+			<div id="time" style="text-align: center; font-size: 48pt; padding-top: 110px;"></div>
+			<br>
+			<div id="day" style="text-align: center; font-size: 24pt;"></div>
+			<div id="date" style="text-align: center; font-size: 24pt;"></div>
+		</div>
+		<div class="d-flex flex-column justify-content-center align-items-center" id="homesquare">
+			<h1 style="text-align: center; font-size: 32pt; padding-top: 40px;">Current Team</h1>
+			<ol style="font-size: 24pt; margin-left: 40px;">
+				<li>John Doe</li>
+				<li>Jane Doe</li>
+				<li>John Smith</li>
+				<li>Tom Harry</li>
+			</ol>
+		</div>
+		<div class="d-flex justify-content-center align-items-center" id="homesquare">
+			<h1 style="text-align: center; font-size: 40pt; padding-top: 40px;">You have XX new notifications</h1>
+			{% comment %} <a href="{% url 'notif' %}" style="text-decoration: none;"><button class="buttons">Go To Notifications</button></a> {% endcomment %}
+		</div>
+		<div class="d-flex justify-content-center align-items-center" id="homesquare">
+			<h1 style="text-align: center; font-size: 40pt; padding-top: 40px;">You have XX incoming projects</h1>
+			{% comment %} <a href="{% url 'blogs:index' %}" style="text-decoration: none;"><button class="buttons" >Go To Projects</button></a> {% endcomment %}
+		</div>
+	{% else %}
+		<p>STRAIGHT adalah <i>website</i> yang digunakan untuk melakukan <i>scheduling</i> dan <i>reminder</i> tugas.</p>
+		<p>Silahkan <b><i>login</i></b> atau <b><i>signup</i></b> terlebih dahulu untuk dapat melihat tugas.</p>
+	{% endif %}
+{% endblock %}

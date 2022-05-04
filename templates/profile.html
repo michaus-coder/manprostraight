@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+	Profile
+{% endblock %}
+
+
+
+{% block content %}
+	<h1 style="text-align: center;">Account Information</h1>
+	<img src="{% static 'images/fotoprofile2.png' %}" style="display: block; margin-left: auto; margin-right: auto;">
+	<br>
+	<a href="" style="text-decoration: none;"><button class="buttonsprofile" >Upload Photo</button></a>
+	<br><br>
+	<table class="tableprofile">
+		<colgroup>
+			<col span="1" style="width: 50%;">
+			<col span="1" style="width: 50%;">
+		 </colgroup>
+		 <tbody>
+			<tr>
+				<th>First Name</th>
+				<th>Last Name</th>
+			</tr>
+			<tr>
+				<th><input type="text" class="inputprofile"></th>
+				<th><input type="text" class="inputprofile"></th>
+			</tr>
+		</tbody>
+	</table>
+	<table class="tableprofile">
+		<colgroup>
+			<col span="1" style="width: 100%;">
+		 </colgroup>
+		 <tbody>
+			<tr>
+				<th>Email</th>
+			</tr>
+			<tr>
+				<th><input type="text" class="inputprofile"></th>
+			</tr>
+			<tr>
+				<th>Password</th>
+			</tr>
+			<tr>
+				<th><input type="text" class="inputprofile"></th>
+			</tr>
+		</tbody>
+	</table>
+	<a href="{% url 'welcome' %}" style="text-decoration: none;"><button class="buttons">Update Profile</button></a>
+{% endblock %}
