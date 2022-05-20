@@ -48,7 +48,7 @@
 			width: 100%;
 		}
 	</style>
-	<div class="container p-5">
+	<div class="container p-5" id="big-container">
 		<h1 class="title text-center mb-3">Sign In</h1>
 		<div class="w-100 text-center mb-4">
 			<img src="{% static 'images/logo_only.png' %}" alt="STRAIGHT logo" class="logo">
@@ -94,6 +94,8 @@
 		</form>
 	</div>
 	<img src="{% static 'images/wave.png' %}" alt="vectors" class="vectors">
-
+	<script>
+		document.getElementById("big-container").closest(".allcontent").classList.remove("p-3");
+	</script>
 {% endblock %}
 

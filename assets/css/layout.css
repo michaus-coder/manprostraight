@@ -158,7 +158,7 @@ body {
 	margin-top: 40px;
 	margin-left: 40px;
 	width: 400px;
-	height: 400px;
+	max-height: 500px;
 	box-shadow: 3px 5px gray;
 }
 
@@ -259,7 +259,6 @@ table.tableproject th {
 	margin: auto;
 	margin-top: 40px;
 	width: 95%;
-	height: 200px;
 }
 
 table.tabletm {
@@ -292,6 +291,17 @@ table.tabletm th {
 input[type=text].inputtm {
 	margin-bottom: 10px;
 	width: 100%;
+	padding: 12px 10px;
+	display: inline-block;
+	background-color: rgb(230, 230, 230);
+	box-sizing: border-box;
+	border-radius: 10px;
+}
+
+.inputtm {
+	margin-bottom: 10px;
+	width: 100%;
+	height: 100%;
 	padding: 12px 10px;
 	display: inline-block;
 	background-color: rgb(230, 230, 230);
@@ -360,6 +370,16 @@ input[type=text].inputprofile {
 	border-radius: 10px;
 }
 
+input[type=password].inputprofile {
+	margin-bottom: 10px;
+	width: 100%;
+	padding: 12px 10px;
+	display: inline-block;
+	background-color: rgb(230, 230, 230);
+	box-sizing: border-box;
+	border-radius: 10px;
+}
+
 table.tableum {
 	width: 90%;
 	table-layout: fixed;
@@ -401,6 +421,14 @@ input[type=text].inputum {
 	width: auto;
 	height: auto;
 	box-shadow: 3px 5px gray;
+}
+
+.projectsquaremanage1{
+	padding: 10px;
+	background: white;
+	width: auto;
+	height: auto;
+	border: 1px solid black;
 }
 
 #projectsquaremanage2 {

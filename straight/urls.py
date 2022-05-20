@@ -28,6 +28,7 @@ handler404 = 'users.views.page_not_found'
 
 urlpatterns = [
     path('', include('users.urls', namespace='')),
+    path('projects/', include('projects.urls', namespace='projects')),
     path('dashboard/', admin.site.urls),
     path('home' , home)
 ]

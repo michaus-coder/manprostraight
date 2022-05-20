@@ -52,6 +52,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'straight.middleware.LoginRequiredMiddleware',
 ]
 
 ROOT_URLCONF = 'straight.urls'
@@ -131,6 +132,7 @@ STATICFILES_DIRS = (
 
 LOGIN_REDIRECT_URL = '/home'
 LOGOUT_REDIRECT_URL = '/login'
+LOGIN_URL = '/login'
 
 
 # Password validation

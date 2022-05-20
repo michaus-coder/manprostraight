@@ -8,8 +8,18 @@
 
 
 {% block content %}
-	<div id="notif_square">
-		<a href=""><img src="{% static 'images/bell_notif.png' %}" style="float: left; margin: 20px;"></a>
-		<a href=""><img src="{% static 'images/cross_notif.png' %}" style="float: right; margin: 20px;"></a>
+	<div class="p-4" id="notif_square">
+		<div class="d-flex flex-row justify-content-between h-100">
+			<div class="p-3">
+				<a href=""><img src="{% static 'images/bell_notif.png' %}"></a>
+			</div>
+			<div class="d-flex flex-column p-2 w-100">
+				<h2>Overdue Task</h2>
+				<p class="h3 fw-normal">One of the tasks of the noodle project has exceeded the deadline. Therefore, adjustments are made to other tasks</p>
+			</div>
+			<div class="align-self-center">
+				<a href=""><img src="{% static 'images/cross_notif.png' %}" style="float: right; margin: 20px;"></a>
+			</div>
+		</div>
 	</div>
 {% endblock %}

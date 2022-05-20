@@ -15,11 +15,13 @@
 
 {% block content %}
 	{% if user.is_authenticated %}
-		<div class="d-flex justify-content-center align-items-center" id="homesquare">
-			<div id="time" style="text-align: center; font-size: 48pt; padding-top: 110px;"></div>
-			<br>
-			<div id="day" style="text-align: center; font-size: 24pt;"></div>
-			<div id="date" style="text-align: center; font-size: 24pt;"></div>
+		<div class="d-flex flex-column justify-content-center align-items-center" id="homesquare" onload="startTime()">
+			<div id="time" style="text-align: center; font-size: 48pt;"></div>
+			<div class="d-flex flex-row justify-content-center align-items-center">
+				<div id="day" style="text-align: center; font-size: 24pt;"></div>
+				<div style="text-align: center; font-size: 24pt;">,&nbsp</div>
+				<div id="date" style="text-align: center; font-size: 24pt;"></div>
+			</div>
 		</div>
 		<div class="d-flex flex-column justify-content-center align-items-center" id="homesquare">
 			<h1 style="text-align: center; font-size: 32pt; padding-top: 40px;">Current Team</h1>
@@ -31,15 +33,144 @@
 			</ol>
 		</div>
 		<div class="d-flex justify-content-center align-items-center" id="homesquare">
-			<h1 style="text-align: center; font-size: 40pt; padding-top: 40px;">You have XX new notifications</h1>
+			<h1 style="text-align: center; font-size: 40pt; padding-top: 40px;">You have 1 new notifications</h1>
 			{% comment %} <a href="{% url 'notif' %}" style="text-decoration: none;"><button class="buttons">Go To Notifications</button></a> {% endcomment %}
 		</div>
 		<div class="d-flex justify-content-center align-items-center" id="homesquare">
-			<h1 style="text-align: center; font-size: 40pt; padding-top: 40px;">You have XX incoming projects</h1>
+			<h1 style="text-align: center; font-size: 40pt; padding-top: 40px;">You have 0 incoming projects</h1>
 			{% comment %} <a href="{% url 'blogs:index' %}" style="text-decoration: none;"><button class="buttons" >Go To Projects</button></a> {% endcomment %}
 		</div>
 	{% else %}
 		<p>STRAIGHT adalah <i>website</i> yang digunakan untuk melakukan <i>scheduling</i> dan <i>reminder</i> tugas.</p>
 		<p>Silahkan <b><i>login</i></b> atau <b><i>signup</i></b> terlebih dahulu untuk dapat melihat tugas.</p>
 	{% endif %}
+
+	<script type="text/javascript">
+		startTime();
+		function startTime() {
+			console.log("test");
+			const today = new Date();
+			let h = today.getHours();
+			let m = today.getMinutes();
+			let s = today.getSeconds();
+			m = checkTime(m);
+			s = checkTime(s);
+			ampm = "";
+			if (h == 0 || h <= 11) {
+				ampm = "AM";
+			} else {
+				ampm = "PM";
+			}
+			document.getElementById("time").innerHTML =
+				h + ":" + m + ":" + s + " " + ampm;
+			harii = today.getDay();
+			hari = "";
+			if (harii == 6) {
+				hari = "Saturday";
+			} else if (harii == 5) {
+				hari = "Friday";
+			} else if (harii == 4) {
+				hari = "Thursday";
+			} else if (harii == 3) {
+				hari = "Wednesday";
+			} else if (harii == 2) {
+				hari = "Tuesday";
+			} else if (harii == 1) {
+				hari = "Monday";
+			} else {
+				hari = "Sunday";
+			}
+			document.getElementById("day").innerHTML = hari;
+
+			tahun = today.getFullYear();
+			const months = [
+				"January",
+				"February",
+				"March",
+				"April",
+				"May",
+				"June",
+				"July",
+				"August",
+				"September",
+				"October",
+				"November",
+				"December",
+			];
+			bulan = months[today.getMonth()];
+			tanggal = today.getDate();
+			document.getElementById("date").innerHTML =
+				tanggal + " " + bulan + " " + tahun;
+			setTimeout(startTime, 1000);
+		}
+
+		function checkTime(i) {
+			if (i < 10) {
+				i = "0" + i;
+			} // add zero in front of numbers < 10
+			return i;
+		}
+
+		/* dropdown */
+		function showdropdown() {
+			document.getElementById("myDropdown").classList.toggle("show");
+		}
+
+		// Close the dropdown if the user clicks outside of it
+		window.onclick = function (event) {
+			if (!event.target.matches(".dropbtn")) {
+				var dropdowns = document.getElementsByClassName("dropdown-content");
+				var i;
+				for (i = 0; i < dropdowns.length; i++) {
+				var openDropdown = dropdowns[i];
+				if (openDropdown.classList.contains("show")) {
+					openDropdown.classList.remove("show");
+				}
+				}
+			}
+			if (!event.target.matches(".sidenavopened")) {
+				closeNav();
+			}
+		};
+
+		function satu() {
+			if (document.getElementById("projecttasks").style.display === "none") {
+				document.getElementById("projecttasks").style.display = "block";
+				document.getElementById("rawmaterial").style.display = "none";
+				document.getElementById("ganttchart").style.display = "none";
+				document.getElementById("one").style.textDecoration = "underline";
+				document.getElementById("two").style.textDecoration = "none";
+				document.getElementById("three").style.textDecoration = "none";
+				document.getElementById("newtaskbtn").style.display = "block";
+				document.getElementById("newmaterialbtn").style.display = "none";
+				document.getElementById("excelbtn").style.display = "none";
+			}
+		}
+		function dua() {
+			if (document.getElementById("rawmaterial").style.display === "none") {
+				document.getElementById("rawmaterial").style.display = "block";
+				document.getElementById("projecttasks").style.display = "none";
+				document.getElementById("ganttchart").style.display = "none";
+				document.getElementById("one").style.textDecoration = "none";
+				document.getElementById("two").style.textDecoration = "underline";
+				document.getElementById("three").style.textDecoration = "none";
+				document.getElementById("newtaskbtn").style.display = "none";
+				document.getElementById("newmaterialbtn").style.display = "block";
+				document.getElementById("excelbtn").style.display = "none";
+			}
+		}
+		function tiga() {
+			if (document.getElementById("ganttchart").style.display === "none") {
+				document.getElementById("ganttchart").style.display = "block";
+				document.getElementById("rawmaterial").style.display = "none";
+				document.getElementById("projecttasks").style.display = "none";
+				document.getElementById("one").style.textDecoration = "none";
+				document.getElementById("two").style.textDecoration = "none";
+				document.getElementById("three").style.textDecoration = "underline";
+				document.getElementById("newtaskbtn").style.display = "none";
+				document.getElementById("newmaterialbtn").style.display = "none";
+				document.getElementById("excelbtn").style.display = "block";
+			}
+		}
+	</script>
 {% endblock %}

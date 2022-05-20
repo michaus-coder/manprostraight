@@ -9,44 +9,47 @@
 
 {% block content %}
 	<h1 style="text-align: center;">Account Information</h1>
-	<img src="{% static 'images/fotoprofile2.png' %}" style="display: block; margin-left: auto; margin-right: auto;">
+	{% comment %} <img src="{% static 'images/fotoprofile2.png' %}" style="display: block; margin-left: auto; margin-right: auto;"> {% endcomment %}
 	<br>
-	<a href="" style="text-decoration: none;"><button class="buttonsprofile" >Upload Photo</button></a>
+	{% comment %} <a href="" style="text-decoration: none;"><button class="buttonsprofile" >Upload Photo</button></a> {% endcomment %}
 	<br><br>
-	<table class="tableprofile">
-		<colgroup>
-			<col span="1" style="width: 50%;">
-			<col span="1" style="width: 50%;">
-		 </colgroup>
-		 <tbody>
-			<tr>
-				<th>First Name</th>
-				<th>Last Name</th>
-			</tr>
-			<tr>
-				<th><input type="text" class="inputprofile"></th>
-				<th><input type="text" class="inputprofile"></th>
-			</tr>
-		</tbody>
-	</table>
-	<table class="tableprofile">
-		<colgroup>
-			<col span="1" style="width: 100%;">
-		 </colgroup>
-		 <tbody>
-			<tr>
-				<th>Email</th>
-			</tr>
-			<tr>
-				<th><input type="text" class="inputprofile"></th>
-			</tr>
-			<tr>
-				<th>Password</th>
-			</tr>
-			<tr>
-				<th><input type="text" class="inputprofile"></th>
-			</tr>
-		</tbody>
-	</table>
-	<a href="{% url 'welcome' %}" style="text-decoration: none;"><button class="buttons">Update Profile</button></a>
+	<form action="{% url 'update_profile' %}" method="post">
+		{% csrf_token %}
+		<table class="tableprofile">
+			<colgroup>
+				<col span="1" style="width: 50%;">
+				<col span="1" style="width: 50%;">
+			</colgroup>
+			<tbody>
+				<tr>
+					<th>First Name</th>
+					<th>Last Name</th>
+				</tr>
+				<tr>
+					<th><input type="text" class="inputprofile" name="first_name" value="{{ user.first_name }}"></th>
+					<th><input type="text" class="inputprofile" name="last_name" value="{{ user.last_name }}"></th>
+				</tr>
+			</tbody>
+		</table>
+		<table class="tableprofile">
+			<colgroup>
+				<col span="1" style="width: 100%;">
+			</colgroup>
+			<tbody>
+				<tr>
+					<th>Email</th>
+				</tr>
+				<tr>
+					<th><input type="text" class="inputprofile" name="email" value="{{ user.email }}"></th>
+				</tr>
+				<tr>
+					<th>Password</th>
+				</tr>
+				<tr>
+					<th><input type="password" class="inputprofile" name="password" placeholder="Fill to Update Password"></th>
+				</tr>
+			</tbody>
+		</table>
+		<a href="#" style="text-decoration: none;"><button type="submit" class="buttons">Update Profile</button></a>
+	</form>
 {% endblock %}

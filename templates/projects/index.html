@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    Project Management
+{% endblock %}
+
+
+
+{% block content %}
+    <div class="row">
+        {% for project in projects %}
+            <div id="projectsquare" class="col-4 d-flex flex-column" {% if project.user_id == request.user.id %} style="background: #B9F8D3" {% endif %}>
+                <h1 style="text-align: center;"> {{project.name}}	</h1>
+                
+                <p>Short description:</p>
+                <div id="projectsquare2">
+                    {{ project.description|truncatechars:50 }}
+                </div>
+                
+                <table class="tableproject">
+                    <tr>
+                        <th>Timeline :</th>
+                        <th>Project Size :</th>
+                    </tr>
+                    <tr>
+                        <th><div id="projectsquare3" style="background-color: red;">{{ project.start_date|date:'d M' }} - {{ project.end_date|date:'d M Y' }}</div></th>
+                        <th><div id="projectsquare3" style="background-color: green;">{{ project.size }}</div></th>
+                    </tr>
+                    <tr>
+                        <th>Project Leader :</th>
+                        <th>Last Updated :</th>
+                    </tr>
+                    <tr>
+                        <th><div id="projectsquare3" style="background-color: blue;">{% if project.user_id == request.user.id %} You {% else %} {{ project.user.username }} {% endif %}</div></th>
+                        <th><div id="projectsquare3" style="background-color: darkorange;">2 days ago</div></th>
+                    </tr>
+                </table>
+                <br>
+
+                <a class="mt-auto" href="{% url 'projects:detail' project.slug %}" style="text-decoration: none;"><button class="buttonsproject" >{% if project.user_id == request.user.id or request.user.is_superuser == 1 %} Manage {% else %} View {% endif %}</button></a>
+            </div>
+        {% endfor %}
+    </div>
+
+    {% if my_team.count > 0 %}
+        <button class="btn" id="addproject" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            <input type="image" src="{% static 'images/addproject.png' %}" />
+        </button>
+    {% endif %}
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <form action="{% url 'projects:add_project' %}" method="post">
+                    {% csrf_token %}
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Add a Project</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="project-name" class="col-form-label">Project Name: </label>
+                            <input type="text" class="form-control" id="project-name" name="name">
+                        </div>
+                        <div class="mb-3">
+                            <label for="full-desc" class="col-form-label">Full Description: </label>
+                            <textarea class="form-control" id="full-desc" name="description"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="message-text" class="col-form-label">Project Size: </label>
+                            <select class="form-control" id="project-size" name="size">
+                                <option>Small</option>
+                                <option>Medium</option>
+                                <option>Large</option>
+                            </select>
+                        </div>
+                        <div class="mb-3 row">
+                            <div class="col-md-6">
+                                <label for="start-date" class="col-form-label">Start Date: </label>
+                                <input type="date" class="form-control" id="start-date" name="start-date">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="end-date" class="col-form-label">End Date: </label>
+                                <input type="date" class="form-control" id="end-date" name="end-date">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="team" class="form-label">Team: </label>
+                            <select class="form-control" id="team" name="team">
+                                {% for team in teams %}
+                                    {% if team.user_id == request.user.id and request.user.is_superuser != 1 %}
+                                        <option value="{{ team.id }}">{{ team.name }}</option>
+                                    {% elif request.user.is_superuser == 1%}
+                                        <option value="{{ team.id }}">{{ team.name }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Add New Project</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
