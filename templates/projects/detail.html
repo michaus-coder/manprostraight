@@ -34,18 +34,18 @@
         </tr>
         <tr>
             <th><div id="projectsquare3" style="background-color: blue;">{{ project.user.username }}</div></th>
-            <th><div id="projectsquare3" style="background-color: darkorange;">2 days ago</div></th>
+            <th><div id="projectsquare3" style="background-color: darkorange;">{{ last_updated }}</div></th>
         </tr>
     </table>
     <br>
     <div class="navbarproject">
-        <a id = "one" style="text-decoration: underline;" onclick="satu()">
+        <a id="one" style="text-decoration: underline;" onclick="satu()">
             Project Tasks
         </a>
-        <a id = "two" onclick="dua()"> 
+        <a id="two" onclick="dua()"> 
             Raw Material
         </a>
-        <a id = "three" onclick="tiga()"> 
+        <a id="three" onclick="tiga()"> 
             Gantt Chart 
         </a>
         {% if project.user == request.user or request.user.is_superuser == 1 %}
@@ -58,71 +58,110 @@
     <div class="accordion" id="projecttasks" style="display: block;">
         <table class="tableprojectsatuan">
             <tr>
-                <th style="text-align: center;">Task name</th>
+                <th style="text-align: center;">Task Name</th>
                 <th style="text-align: center;">Timeline</th>
-                <th style="text-align: center;">Priority</th>
                 <th style="text-align: center;">Overall Status</th>
                 <th style="text-align: center;">Last Updated at</th>
                 <th style="text-align: center;">Details</th>
             </tr>
-            <tr>
-                <td class="text-center">task name</td>
-                <td><div id="projectsquare3" style="background-color: red; text-align: center;">27 Feb - 04 Mar 2022</div></td>
-                <td><div id="projectsquare3" style="background-color: green; text-align: center;">High</div></td>
-                <td><div id="projectsquare3" style="background-color: darkorange; text-align: center;">Done</div></td>
-                <td><div id="projectsquare3" style="background-color: red; text-align: center;">30 Mar 2022</div></td>
-                <td><a href="#" data-bs-toggle="collapse" data-bs-target="#subtask1" aria-expanded="false" aria-controls="collapseOne"><img src="{% static 'images/panahbawah.png' %}" style="display: block; margin: 0 auto;"></a></td>
-            </tr>
-            {% for comment in project.comment_set.all %}
+            {% for task in tasks %}
                 <tr>
-                    <td>{{project.description}}</td>
-                    <td><div id="projectsquare3" style="background-color: red; text-align: center;">27 Feb - 04 Mar 2022</div></td>
-                    <td><div id="projectsquare3" style="background-color: green; text-align: center;">High</div></td>
-                    <td><div id="projectsquare3" style="background-color: darkorange; text-align: center;">Done</div></td>
-                    <td><div id="projectsquare3" style="background-color: red; text-align: center;">{{comment.created_at}}</div></td>
-                    <td><a href="{% url 'projects:comment-edit' comment.id %}"><img src="{% static 'images/panahbawah.png' %}" style="display: block; margin: 0 auto;"></a></td>
+                    <td class="text-center">{{ task.name }}</td>
+                    <td>
+                        <div id="projectsquare3" style="background-color: red; text-align: center;">
+                        {{ task.start_date|date:'d M' }} - {{ task.end_date|date:'d M Y' }}
+                        </div>
+                    </td>
+                    <td>
+                        <div id="projectsquare3"style="text-align: center;">
+                            <div class="progress">
+                                <div class="progress-bar bg-warning" role="progressbar" style="width: {{ task.overall_status }}%;" aria-valuenow="{{ task.overall_status }}" aria-valuemin="0" aria-valuemax="100">{{ task.overall_status }}%</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td><div id="projectsquare3" style="background-color: red; text-align: center;">{{ task.updated_at|date:'d M Y' }}</div></td>
+                    <td><a href="#" data-bs-toggle="collapse" data-bs-target="#subtask{{ task.id }}" aria-expanded="false" aria-controls="collapseOne"><img src="{% static 'images/panahbawah.png' %}" style="display: block; margin: 0 auto;"></a></td>
+                </tr>
+                <tr>
+                    <td colspan="5" class="p-0">
+                        <div class="collapse mb-3" id="subtask{{ task.id }}">
+                            <table class="tableprojectsatuansubtask">             
+                                <tr>
+                                    <td colspan="4" class="text-center">
+                                        <div class="d-flex flex-row align-items-center text-center">
+                                            <div class="h6 ms-4">Add Subtask</div>
+                                            <div class="ms-auto">
+                                                <button class="btn btn-primary rounded-pill text-white" id="newsubtaskbtn" data-taskid="{{ task.id }}" data-taskname="{{ task.name }}" data-startdate="{{ task.start_date | date:'Y-m-d'}}" data-enddate="{{ task.end_date | date:'Y-m-d'}}">Add</button>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="text-align: center;">Subtask Name</th>
+                                    <th style="text-align: center;">Timeline</th>
+                                    <th style="text-align: center;">Status</th>
+                                    <th style="text-align: center;">Priority</th>
+                                </tr>
+                                {% for subtask in task.subtask_set.all %}
+                                    <tr>
+                                        <td class="text-center">{{ subtask.name }}</td>
+                                        <td>
+                                            <div id="projectsquare3" style="background-color: red; text-align: center;">
+                                            {{ subtask.start_date|date:'d M' }} - {{ subtask.end_date|date:'d M Y' }}
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div id="projectsquare3"style="background-color: green;text-align: center;">
+                                                {% if subtask.status == "ns" %}
+                                                Not Started
+                                                {% elif subtask.status == "ip" %}
+                                                In Progress
+                                                {% elif subtask.status == "c" %}
+                                                Completed
+                                                {% endif %}
+                                            </div>
+                                        </td>
+                                        <td><div id="projectsquare3" style="background-color: red; text-align: center;">{{ subtask.priority }}</div></td>
+                                    </tr>
+                                {% endfor %}
+                            </table>
+                        </div>
+                    </td>
                 </tr>
             {% endfor %}
-            </table>
-            {% comment %} Subtasks {% endcomment %}
-            <div id="subtask1" class="projectsquaremanage1 accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#projecttasks">
-                <table class="tableprojectsatuansubtask">
-                    <tr>
-                    <th style="text-align: center;">Subtask name</th>
-                    <th style="text-align: center;">Timeline</th>
-                    <th style="text-align: center;">Status</th>
-                    <th style="text-align: center;">Last Updated</th>
-                    </tr>
-                    <tr>
-                        <td class="text-center">Subtask 1</td>
-                        <td class="text-center">27 Feb - 04 Mar 2022</td>
-                        <td class="text-center">Done</td>
-                        <td class="text-center">27 Maret 2022</td>
-                    </tr>
-                </table>
-            </div>
-            {% comment %} -----------------Subtasks-------------------- {% endcomment %}
+        </table>
     </div>
     <div id="rawmaterial" style="display: none;">
         <table class="tableprojectsatuan">
             <tr>
                 <th style="text-align: center;">Material name</th>
-                <th style="text-align: center;">Priority</th>
-                <th style="text-align: center;">Added at</th>
-                <th style="text-align: center;">Added by</th>
+                <th style="text-align: center;">Quantity</th>
+                <th style="text-align: center;">Unit</th>
+                <th style="text-align: center;">Status</th>
+                <th style="text-align: center;">Expected to Arrive</th>
+
             </tr>
-            {% comment %} {% for comment in project.comment_set.all %}
-                <tr>
-                    <td>{{comment.desc}}</td>
-                    <td><div id="projectsquare3" style="background-color: darkorange; text-align: center;">High</div></td>
-                    <td><div id="projectsquare3" style="background-color: red; text-align: center;">{{comment.created_at}}</div></td>
-                    <td><div id="projectsquare3" style="background-color: red; text-align: center;">{{comment.user}}</div></td>
-                </tr>
-            {% endfor %} {% endcomment %}
+            {% for material in project.rawmaterial_set.all %}
+            <tr>
+                <td class="text-center">{{ material.name }}</td>
+                <td class="text-center">{{ material.quantity }}</td>
+                <td class="text-center">{{ material.unit }}</td>
+                <td class="text-center">
+                    {% if material.status == "0" %}
+                    Pending
+                    {% elif material.status == "1" %}
+                    Arrived
+                    {% endif %}
+                </td>
+                <td class="text-center">{{ material.deadline | date:'d M Y' }}</td>
+            </tr>
+            {% endfor %}
             </table>
     </div>
-    <div id="ganttchart" style="display: none;">
-        
+    <div id="ganttchart" style="display: none;" class="text-center">
+        {% autoescape off %}
+            {{ gantt_plot }}
+        {% endautoescape %}
     </div>
 </div>
 
@@ -130,40 +169,94 @@
     <div class="modal fade" id="newtask" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Add a Task</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form>
+                <form action="{% url 'projects:store_task' project.slug %}" method="post">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Add a Task</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        {% csrf_token %}
+                        <input type="hidden" name="project_id" value="{{project.id}}">
                         <div class="form-group">
-                            <label for="task-name" class="col-form-label">Task Name: </label>
-                            <input type="text" class="form-control" id="task-name">
+                            <label for="name" class="col-form-label">Task Name: </label>
+                            <input type="text" class="form-control" id="name" name="name" placeholder="Task Name">
                         </div>
-                        <div class="form-group">
+                        {% comment %} <div class="form-group">
                             <label for="message-text" class="col-form-label">Project Priority: </label>
                             <select class="form-control" id="task-priority">
                                 <option>High</option>
                                 <option>Medium</option>
                                 <option>Low</option>
                             </select>
-                        </div>
+                        </div> {% endcomment %}
                         <div class="mb-3 row">
                             <div class="col-md-6">
                                 <label for="start-date" class="col-form-label">Start Date: </label>
-                                <input type="date" class="form-control" id="start-date" name="start-date">
+                                <input type="date" class="form-control" id="start-date" name="start-date" min="{{ project.start_date |date:'Y-m-d' }}" max="{{ project.end_date | date:'Y-m-d' }}">
                             </div>
                             <div class="col-md-6">
                                 <label for="end-date" class="col-form-label">End Date: </label>
-                                <input type="date" class="form-control" id="end-date" name="end-date">
+                                <input type="date" class="form-control" id="end-date" name="end-date" min="{{ project.start_date |date:'Y-m-d' }}" max="{{ project.end_date | date:'Y-m-d' }}">
                             </div>
                         </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-primary">Add New Task</button>
-                </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Add New Task</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Subtask-->
+    <div class="modal fade" id="newsubtask" tabindex="-1" role="dialog" aria-labelledby="newsubtaskmodal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <form action="{% url 'projects:store_subtask' project.slug %}" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" id="task_id" name="task_id" />
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="newsubtaskmodal">Add a Subtask for <span id="task_name"></span></h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="name" class="col-form-label">Subtask Name: </label>
+                            <input type="text" class="form-control" id="name" name="name" placeholder="Subtask Name">
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-6">
+                                <label for="start-date" class="col-form-label">Start Date: </label>
+                                <input type="date" class="form-control" id="start-date" name="start-date" min="{{ task.start_date | date:'Y-m-d' }}" max="{{ task.end_date | date:'Y-m-d' }}">
+                            </div>
+                            <div class="col-6">
+                                <label for="end-date" class="col-form-label">End Date: </label>
+                                <input type="date" class="form-control" id="end-date" name="end-date" min="{{ task.start_date | date:'Y-m-d' }}" max="{{ task.end_date | date:'Y-m-d' }}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="subtask-status" class="col-form-label">Status: </label>
+                            <select class="form-control" id="subtask-status" name="status">
+                                <option value="ns">Not Started</option>
+                                <option value="ip">In Progress</option>
+                                <option value="c">Completed</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="subtask-priority" class="col-form-label">Priority: </label>
+                            <select class="form-control" id="subtask-priority" name="priority">
+                                <option>High</option>
+                                <option>Medium</option>
+                                <option>Low</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Add</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -172,33 +265,66 @@
     <div class="modal fade" id="newmaterial" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Add a Material</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form>
-                        <div class="form-group">
+                <form action="{% url 'projects:store_material' project.slug %}" method="post">
+                    {% csrf_token %}
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Add a Material</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group mb-3">
                             <label for="task-name" class="col-form-label">Material Name: </label>
-                            <input type="text" class="form-control" id="task-name">
+                            <input type="text" class="form-control" id="task-name" name="name" placeholder="Name">
                         </div>
-                        <div class="form-group">
-                            <label for="message-text" class="col-form-label">Material Priority: </label>
-                            <select class="form-control" id="task-priority">
-                                <option>High</option>
-                                <option>Medium</option>
-                                <option>Low</option>
+                        <div class="form-group mb-3">
+                            <label for="qty" class="form-label">Quantity: </label>
+                            <input type="number" class="form-control" id="qty" min="0" name="quantity" placeholder="Quantity">
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="unit" class="form-label">Unit: </label>
+                            <select class="form-control" id="unit" name="unit">
+                                <option value="kg">Kg</option>
+                                <option value="liter">Liter</option>
+                                <option value="pcs">Pcs</option>
+                                <option value="meter">Meter</option>
                             </select>
                         </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-primary">Add New Material</button>
-                </div>
+                        <div class="form-group mb-3">
+                            <label for="date" class="form-label">Expected arrive: </label>
+                            <input type="date" class="form-control" id="date" min="{{ project.start_date | date:'Y-m-d' }}" max="{{ project.end_date | date:'Y-m-d' }}" name="deadline">
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="status" class="form-label">Status:</label>
+                            <select class="form-control" id="status" name="status">
+                                <option value="0">Pending</option>
+                                <option value="1">Arrived</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Add</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
+    <script>
+        var subtaskmodal = new bootstrap.Modal(document.getElementById('newsubtask'));
+        $(document).on('click', '[id="newsubtaskbtn"]', function() {
+            var task_id = $(this).data('taskid');
+            var task_name = $(this).data('taskname');
+            var start_date = $(this).data('startdate');
+            var end_date = $(this).data('enddate');
+            $('#task_id').val(task_id);
+            $('#task_name').text(task_name);
+            $('#newsubtask #start-date').attr('min', start_date);
+            $('#newsubtask #end-date').attr('min', start_date);
+            $('#newsubtask #start-date').attr('max', end_date);
+            $('#newsubtask #end-date').attr('max', end_date);
+            subtaskmodal.show();
+        });
+    </script>
 
 {% endblock %}
 

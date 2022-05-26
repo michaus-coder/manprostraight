@@ -22,8 +22,6 @@ class Task(models.Model):
     name = models.CharField(max_length=100)
     start_date = models.DateField()
     end_date = models.DateField()
-    status = models.CharField(max_length=100)
-    priority = models.CharField(max_length=100)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     def __str__(self):
@@ -64,13 +62,11 @@ class Supplier(models.Model):
         return self.name
 
 class RawMaterial(models.Model):
-    task = models.ForeignKey(Task, on_delete=models.CASCADE)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
-    description = models.TextField(max_length=1000)
     quantity = models.IntegerField()
     unit = models.CharField(max_length=100)
     status = models.CharField(max_length=100)
-    supplier = models.ForeignKey(Supplier, on_delete=models.CASCADE)
     deadline = models.DateField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
