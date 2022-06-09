@@ -154,7 +154,8 @@ def detail(request, project_name):
         subtask_updated_at = latest_subtask.updated_at
     if latest_material:
         material_updated_at = latest_material.updated_at
-    subtasks = models.SubTask.objects.all().order_by('start_date')
+    
+    subtasks = models.SubTask.objects.filter(task__in=tasks).order_by('start_date')
     raw_materials = models.RawMaterial.objects.filter(project_id=project.id).order_by('deadline')
     last_updated = max(task_updated_at, subtask_updated_at, material_updated_at, project.updated_at)
     gantt_plot = "Data not Available"
