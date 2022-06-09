@@ -233,7 +233,6 @@ table.tableproject th {
 }
 
 .dropdown-content {
-	display: none;
 	position: fixed;
 	background-color: #e7e7e7;
 	overflow: auto;

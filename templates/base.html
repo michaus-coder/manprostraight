@@ -158,6 +158,11 @@
     </div>
 
     <script>
+
+      $(document).ready(function () {
+        document.getElementById("myDropdown").style.display = "none";
+      });
+
       function toggleNav(el) {
         if (el.className == "sidenavopened") {
           closeNav();
@@ -244,20 +249,22 @@
 
       /* dropdown */
       function showdropdown() {
-        document.getElementById("myDropdown").classList.toggle("show");
+        if(document.getElementById("myDropdown").style.display == "block"){
+          document.getElementById("myDropdown").style.display = "none";
+        }else{
+          document.getElementById("myDropdown").style.display = "block";
+        }
+      }
+
+      function closeDropdown() {
+        document.getElementById("myDropdown").style.display = "none";
       }
 
       // Close the dropdown if the user clicks outside of it
+
       window.onclick = function (event) {
-        if (!event.target.matches(".dropbtn")) {
-          var dropdowns = document.getElementsByClassName("dropdown-content");
-          var i;
-          for (i = 0; i < dropdowns.length; i++) {
-            var openDropdown = dropdowns[i];
-            if (openDropdown.classList.contains("show")) {
-              openDropdown.classList.remove("show");
-            }
-          }
+        if (!event.target.matches(".dropbtn") && !event.target.matches(".dropbtn *")) {
+          closeDropdown();
         }
         if (!event.target.matches(".sidenavopened")) {
           closeNav();

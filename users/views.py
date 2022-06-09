@@ -148,9 +148,7 @@ def create_user(request):
             form.save()
             return redirect('usermanagement')
         else:
-            return redirect('usermanagement.html')
-    else:
-        form = UserCreationForm()
+            return redirect('usermanagement')
     return render(request, 'usermanagement.html', {'form': form, 'usercreationform': usercreationform, 'userpasswordform': userpasswordform})
 
 def update_user(request, pk):

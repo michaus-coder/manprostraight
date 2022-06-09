@@ -97,7 +97,7 @@
 	{% else %}
 		<div id="tm_square2" class="row justify-content-around">
 			{% for member in members %}
-				{% if member.user_id != request.user.id %}
+				{% if member.user_id != request.user.id and member.team.user_id == request.user.id %}
 					<div id="tm_square3" class="col-4 text-center mb-4 position-relative" {% if member.team.user_id == request.user.id %} style="background: #B9F8D3" {% endif %}>
 						{% if member.team.user_id == request.user.id %}
 							<a href="{% url 'remove_team_member' member.id %}"><img src="{% static 'images/trash_tm.png' %}" style="float: right;"></a>

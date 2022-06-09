@@ -85,8 +85,8 @@ class UserCreationForm(UserCreationForm):
 
     def clean(self):
         cleaned_data = super(UserCreationForm, self).clean()
-        password = cleaned_data.get("password")
-        confirm_password = cleaned_data.get("confirm_password")
+        password = cleaned_data.get("password1")
+        confirm_password = cleaned_data.get("password2")
 
         if password != confirm_password:
             raise forms.ValidationError(

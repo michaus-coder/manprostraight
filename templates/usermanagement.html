@@ -131,10 +131,10 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        {% if usercreationform.errors %}
+                        {% if form.errors %}
                             <ul class="errors">
-                                {% for error in usercreationform.errors %}
-                                    <li>{{ error }}</li>
+                                {% for error in form.errors %}
+                                    <li>{{ form.errors }}</li>
                                 {% endfor %}
                             </ul>
                         {% endif %}
