@@ -33,7 +33,7 @@
                     </tr>
                     <tr>
                         <th><div id="projectsquare3" style="background-color: blue;">{% if project.user_id == request.user.id %} You {% else %} {{ project.user.username }} {% endif %}</div></th>
-                        <th><div id="projectsquare3" style="background-color: darkorange;">2 days ago</div></th>
+                        <th><div id="projectsquare3" style="background-color: darkorange;">{% if project.last_updated == 0 %} Today {% elif project.last_updated == 1 %} Yesterday {% else %} {{ project.last_updated }} days ago {% endif %}</div></th>
                     </tr>
                 </table>
                 <br>
