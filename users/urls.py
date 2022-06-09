@@ -5,6 +5,7 @@ from . import views
 app_name = ''
 
 urlpatterns = [
+    path('', auth_views.LoginView.as_view(redirect_authenticated_user=True), name='login'),
     path('signup/', views.signup, name='signup'),
     # path('password_change/', views.change_password, name='change_password'),
     path('activate/<uidb64>/<token>', views.activate, name='activate'),

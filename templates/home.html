@@ -26,18 +26,17 @@
 		<div class="d-flex flex-column justify-content-center align-items-center" id="homesquare">
 			<h1 style="text-align: center; font-size: 32pt; padding-top: 40px;">Current Team</h1>
 			<ol style="font-size: 24pt; margin-left: 40px;">
-				<li>John Doe</li>
-				<li>Jane Doe</li>
-				<li>John Smith</li>
-				<li>Tom Harry</li>
+				{% for team in teams %}
+					<li>{{ team.name }}</li>
+				{% endfor %}
 			</ol>
 		</div>
 		<div class="d-flex justify-content-center align-items-center" id="homesquare">
-			<h1 style="text-align: center; font-size: 40pt; padding-top: 40px;">You have 1 new notifications</h1>
+			<h1 style="text-align: center; font-size: 40pt; padding-top: 40px;">You have {{ notifications_count }} new notifications</h1>
 			{% comment %} <a href="{% url 'notif' %}" style="text-decoration: none;"><button class="buttons">Go To Notifications</button></a> {% endcomment %}
 		</div>
 		<div class="d-flex justify-content-center align-items-center" id="homesquare">
-			<h1 style="text-align: center; font-size: 40pt; padding-top: 40px;">You have 0 incoming projects</h1>
+			<h1 style="text-align: center; font-size: 40pt; padding-top: 40px;">You have {{ projects_count }} incoming projects</h1>
 			{% comment %} <a href="{% url 'blogs:index' %}" style="text-decoration: none;"><button class="buttons" >Go To Projects</button></a> {% endcomment %}
 		</div>
 	{% else %}

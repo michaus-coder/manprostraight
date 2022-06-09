@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'users',
     'widget_tweaks',
     'django_extensions',
+    'django_celery_results',
+    'django_celery_beat',
 ]
 
 MIDDLEWARE = [
@@ -170,3 +172,26 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'assets'),
 )
+
+# Celery settings
+# https://docs.celeryproject.org/en/stable/userguide/configuration.html
+CELERY_BROKER_URL = 'redis://localhost:6379'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'Asia/Jakarta'
+
+CELERY_RESULT_BACKEND = 'django-db'
+
+#Celery beat
+CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
+
+# SMTP settings
+# https://docs.djangoproject.com/en/3.0/topics/email/
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'michaelwong306@gmail.com'
+EMAIL_HOST_PASSWORD = 'sngwwujfmoftigoh'
+DEFAULT_FROM_EMAIL = 'STRAIGHT MESSAGE <no-reply@straight.com>'

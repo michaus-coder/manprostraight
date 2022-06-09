@@ -20,6 +20,7 @@ from django.core.mail import send_mail
 from . import forms
 import json
 from . import models
+from projects import models as project_models
 
 def signup(request):
     if request.method == 'POST':
@@ -78,7 +79,11 @@ def usermanagement(request):
     return render(request, 'usermanagement.html', {'users': users, 'form': form, 'usercreationform': usercreationform, 'userpasswordform': userpasswordform})
 
 def notif(request):
-	return render(request, 'notif.html')
+    notifications = project_models.Notification.objects.filter(user_id=request.user.id)
+    for notification in notifications:
+        notification.is_read = True
+        notification.save()
+    return render(request, 'notif.html', {'notifications': notifications})
 	
 def teammanagement(request):
     users = User.objects.all()

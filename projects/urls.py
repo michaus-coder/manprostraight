@@ -19,4 +19,6 @@ urlpatterns = [
     path('<str:project_name>/store_material', views.store_material, name="store_material"),
     path('<str:project_name>/update_material', views.update_material, name="update_material"),
     path('<str:project_name>/delete_material', views.destroy_material, name="delete_material"),
+    path('check_subtask_periodic/', views.check_subtask_periodic, name="check_subtask_periodic"),
+    path('delete_notification/<int:nid>', views.delete_notification, name="delete_notification"),
 ]

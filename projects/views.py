@@ -24,9 +24,61 @@ import pandas as pd
 from plotly.offline import plot
 import plotly.express as px
 from django.db.models import Q
+from straight.tasks import test_func
+
+def check_subtask_periodic():
+    subtasks = models.SubTask.objects.all()
+    nothing_changed = True
+    for subtask in subtasks:
+        project = models.Project.objects.get(id=subtask.task.project_id)
+        if datetime.datetime.now() > subtask.end_date:
+            nothing_changed = False
+            add_days = 1
+            subtask.end_date = subtask.end_date + datetime.timedelta(days=1)
+            subtask.save()
+            after_subtask = models.SubTask.objects.filter(task=subtask.task).filter(start_date__gt=subtask.start_date).filter(~Q(id=subtask.id))
+            for x in after_subtask:
+                if x.status == 'ns':
+                    x.start_date = x.start_date + datetime.timedelta(days=add_days)
+                x.end_date = x.end_date + datetime.timedelta(days=add_days)
+                x.save()
+            raw_materials = models.RawMaterial.objects.filter(project_id=project.id).filter(status=0).filter(deadline__gte=subtask.start_date)
+            for x in raw_materials:
+                x.deadline = x.deadline + datetime.timedelta(days=add_days)
+                x.save()
+            subtask.task.end_date = subtask.task.end_date + datetime.timedelta(days=add_days)
+            if subtask.task.end_date > project.end_date:
+                project.end_date = subtask.task.end_date
+                project.save()
+            subtask.task.save()
+            tasks = models.Task.objects.filter(project_id=project.id).filter(start_date__gte=subtask.task.start_date).filter(~Q(id=subtask.task.id))
+            for x in tasks:
+                x.start_date = x.start_date + datetime.timedelta(days=add_days)
+                x.end_date = x.end_date + datetime.timedelta(days=add_days)
+                for subtask in x.subtask_set.all():
+                    if subtask.status == 'ns':
+                        subtask.start_date = subtask.start_date + datetime.timedelta(days=add_days)
+                    subtask.end_date = subtask.end_date + datetime.timedelta(days=add_days)
+                    subtask.save()
+                if x.end_date > project.end_date:
+                    project.end_date = x.end_date
+                    project.save()
+                x.save()
+    if nothing_changed:
+        return HttpResponse('nothing changed', status=201)
+    else:
+        return HttpResponse('something changed', status=200)
+        
 
 def home(request):
-    return render(request, '../templates/home.html')
+    members = usermodels.Member.objects.filter(user_id=request.user.id)
+    teams = []
+    for member in members:
+        teams.append(member.team)
+
+    notifications_count = models.Notification.objects.filter(user_id=request.user.id).filter(is_read=False).count()
+    projects_count = models.Project.objects.filter(team_id__in=teams).filter(end_date__gte=datetime.datetime.now()).count()
+    return render(request, '../templates/home.html', {'notifications_count': notifications_count, 'projects_count': projects_count, 'teams': teams})
 
 def index(request):
     allteam = usermodels.Team.objects.all()
@@ -395,3 +447,7 @@ def destroy_material(request, project_name):
     material.delete()
     return redirect('projects:detail', project_name=project_name)
 
+def delete_notification(request, nid):
+    notification = models.Notification.objects.get(id=nid)
+    notification.delete()
+    return redirect('notif')
